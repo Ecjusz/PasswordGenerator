@@ -27,7 +27,7 @@ public class Main {
     }
 
     public static String PasswordBuilder(){
-        int numOfSigns;
+        int numberOfSigns;
         boolean ifBigCase;
         boolean ifDigits;
         boolean ifSpecialSigns;
@@ -41,7 +41,20 @@ public class Main {
 
         System.out.println("Password Generator");
         System.out.println("How many signs?");
-        numOfSigns = scanner.nextInt();
+
+        var numOfSigns = scanner.next();
+        try
+        {
+            Integer.parseInt(numOfSigns);
+            System.out.println("Password will have " + numOfSigns + " signs");
+        }
+        catch (NumberFormatException e)
+        {
+            System.out.println(numOfSigns + " is not a integer");
+        }
+
+        numberOfSigns = Integer.parseInt(numOfSigns);
+
         System.out.println("Big Case signs? (y/n)");
         String big = scanner.next();
         System.out.println("Digits as signs? (y/n)");
@@ -63,12 +76,16 @@ public class Main {
 
         int total = pool.length();
 
-        for (int i = 0; i < numOfSigns; i++){
+        for (int i = 0; i < numberOfSigns; i++){
                 Random r = new Random();
-                int randomNumber = r.ints(numOfSigns, 0, total).findFirst().getAsInt();
+                int randomNumber = r.ints(numberOfSigns, 0, total).findFirst().getAsInt();
                 char letter = pool.charAt(randomNumber);
                 password += letter;
             }
         return password;
+    }
+    private static boolean isStringInt(String s){
+        Scanner in=new Scanner(s);
+        return in.hasNextInt();
     }
 }
