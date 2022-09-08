@@ -4,20 +4,6 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
-    @Override
-    public String toString() {
-        return "Main{}";
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
 
     public static void main(String[] args) {
 
@@ -31,30 +17,46 @@ public class Main {
         boolean ifBigCase;
         boolean ifDigits;
         boolean ifSpecialSigns;
-        final String digits = "0123456789";
+
+        //Creating possible pools of signs, initializing empty password and new scanner.
         String pool = "qwertyuiopasdfghjklzxcvbnm";
+        final String digits = "0123456789";
         final String bigCase = "QWERTYUIOPASDFGHJKLZXCVBNM";
         final String specials = "~!@#$%^&*()_+{}:|<>?-=[];'./,'";
         String password = "";
-
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Password Generator");
+        System.out.println("PASSWORD GENERATOR");
         System.out.println("How many signs?");
 
         var numOfSigns = scanner.next();
-        try
-        {
-            Integer.parseInt(numOfSigns);
-            System.out.println("Password will have " + numOfSigns + " signs");
-        }
-        catch (NumberFormatException e)
-        {
-            System.out.println(numOfSigns + " is not a integer");
-        }
-
         numberOfSigns = Integer.parseInt(numOfSigns);
 
+        //Making sure that numOfSigns/numberOfSings is an Integer bigger than 0 (at least 1 sign).
+        while (numberOfSigns < 1){
+            System.out.println("Password has to have at least 1 sign. Try again");
+            numOfSigns = scanner.next();
+            numberOfSigns = Integer.parseInt(numOfSigns);
+        }
+
+    // Try-catch option but app is ending after putting illegal sign. //
+    //  try
+    //  {
+    //      int signs = Integer.parseInt(numOfSigns);
+    //      while (signs < 1 ){
+    //          System.out.println("Password has to have at least 1 sign. Try again");
+    //          numOfSigns = scanner.next();
+    //          signs = Integer.parseInt(numOfSigns);
+    //      }
+    //      System.out.println("Password will have " + numOfSigns + " signs");
+    //  }
+    //  catch (NumberFormatException e)
+    //  {
+    //      System.out.println(numOfSigns + " is not a integer");
+    //  }
+
+
+        //Setting the pool of signs for password.
         System.out.println("Big Case signs? (y/n)");
         String big = scanner.next();
         System.out.println("Digits as signs? (y/n)");
@@ -62,9 +64,9 @@ public class Main {
         System.out.println("Special signs? (y/n)");
         String special = scanner.next();
 
-        ifBigCase = big.equals("y");
-        ifDigits = digit.equals("y");
-        ifSpecialSigns = special.equals("y");
+        ifBigCase = big.equalsIgnoreCase("y");
+        ifDigits = digit.equalsIgnoreCase("y");
+        ifSpecialSigns = special.equalsIgnoreCase("y");
 
         if (ifBigCase){
             pool += bigCase;
@@ -76,16 +78,16 @@ public class Main {
 
         int total = pool.length();
 
+        //Drawing letters from set pool.
         for (int i = 0; i < numberOfSigns; i++){
                 Random r = new Random();
-                int randomNumber = r.ints(numberOfSigns, 0, total).findFirst().getAsInt();
+                int randomNumber = r.ints(numberOfSigns, 0, total)
+                        .findFirst()
+                        .getAsInt();
                 char letter = pool.charAt(randomNumber);
                 password += letter;
             }
-        return password;
+        return "This is your password: " + password;
     }
-    private static boolean isStringInt(String s){
-        Scanner in=new Scanner(s);
-        return in.hasNextInt();
-    }
+
 }
